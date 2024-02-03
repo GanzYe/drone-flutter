@@ -1,5 +1,8 @@
-import 'package:coolroots/dependency_injection.dart' as di;
+import 'package:drone/bloc/drones_details_cubit/drones_details_cubit.dart';
 import 'package:drone/config/app_theme.dart';
+import 'package:drone/dependency_injection.dart' as di;
+import 'package:drone/dependency_injection.dart';
+import 'package:drone/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,8 +23,8 @@ class CoolRootsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
-          BlocProvider<UserDetailsCubit>(
-            create: (context) => getIt<UserDetailsCubit>(),
+          BlocProvider<DronesDetailsCubit>(
+            create: (context) => getIt(),
           ),
         ],
         child: ScreenUtilInit(

@@ -11,8 +11,11 @@ class AppTheme {
   static const Color grey20 = Color(0xFF697077);
   static const Color grey10 = Color(0xFFF3F3F3);
 
-  // static const Color grey30 = Color(0xFFEEEEEE);
   static const Color background = Color(0xFFF7F7F7);
+  static const Color splashBG = Color(0xFFAFC1E3);
+  static const Color mainColor = Color(0xFF23366A);
+  static const Color secondColor = Color(0xFFCBCBCB);
+
   static Color grey30WithOpacity = const Color(0xFFA2A2A3).withOpacity(0.5);
   static Color cyan20WithOpacity75 = const Color(0xCC061727).withOpacity(0.80);
   static const Color white = Color(0xFFFFFFFF);
