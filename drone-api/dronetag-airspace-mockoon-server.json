@@ -1,0 +1,346 @@
+{
+  "uuid": "0e9d8113-cb81-49ec-84a3-e7c9d728b4cd",
+  "lastMigration": 32,
+  "name": "Dronetag airspace service mock",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3013,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "6d789ec1-70ea-4319-a404-cc15a094f814",
+      "type": "http",
+      "documentation": "List of all the aircrafts currently in the airspace",
+      "method": "get",
+      "endpoint": "airspace",
+      "responses": [
+        {
+          "uuid": "7f00477f-a647-4410-8a75-a1185444a772",
+          "body": "[]",
+          "latency": 75,
+          "statusCode": 200,
+          "label": "Absolutely no air traffic",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f32127dc-d7d4-4fdc-a5c2-4dc6646f0b64",
+          "body": "[\n  {\n    \"uas_id\": \"{{faker 'string.hexadecimal' prefix='1596B' length=11 casing='upper' }}\",\n    \"last_seen\": \"{{dateFormat (faker 'date.recent' days=0.01) 'yyyy-MM-dd\\'T\\'HH:mm:ssXX'}}\",\n    \"location\": {\n      \"latitude\": 49.19230691, \n      \"longitude\": 16.55507502,\n      \"altitude\": 56.4\n    },\n    \"speed\": {{faker 'number.float' min=0 max=50 precision=0.1}},\n    \"track_angle\": {{faker 'number.int' min=0 max=360}}\n  }\n]",
+          "latency": 75,
+          "statusCode": 200,
+          "label": "Some air traffic in Brno",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "b1495d62-b18f-44c8-bc50-56503bee69d1",
+          "body": "[\n  {{#repeat (queryParam 'total' '30')}}\n  {\n    \"uas_id\": \"{{faker 'string.hexadecimal' prefix='1596B' length=11 casing='upper' }}\",\n    \"last_seen\": \"{{dateFormat (faker 'date.recent' days=0.01) 'yyyy-MM-dd\\'T\\'HH:mm:ssXX'}}\",\n    \"location\": {\n      \"latitude\": {{faker 'location.latitude' min=50.02 max=50.15 precision=8}},\n      \"longitude\": {{faker 'location.longitude' min=14.27 max=14.55 precision=8}},\n      \"altitude\": {{faker 'number.float' min=0 max=120 precision=0.01}}\n    },\n    \"speed\": {{faker 'number.float' min=0 max=50 precision=0.1}},\n    \"track_angle\": {{faker 'number.int' min=0 max=360}}\n  },\n  {{/repeat}}\n]",
+          "latency": 125,
+          "statusCode": 200,
+          "label": "Tight air traffic in Prague",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "afd0bf49-d25f-44dc-84e5-56936a8f3e4d",
+          "body": "{\n  \"error_code\": \"server_down\",\n  \"error_message\": \"Service is unavailable\",\n  \"_\": \"¯\\_(ツ)_/¯\",\n}",
+          "latency": 1500,
+          "statusCode": 503,
+          "label": "Server is down",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "d92101bd-1e4c-4b25-ae91-ac54a4753f94",
+      "type": "http",
+      "documentation": "Create a new flight plan",
+      "method": "post",
+      "endpoint": "plan",
+      "responses": [
+        {
+          "uuid": "1902355e-ad6b-4d91-aad5-2305c175be20",
+          "body": "{\n  \"id\": \"{{faker 'string.uuid'}}\",\n  \"state\": \"planned\",\n  \"valid_until\": \"{{dateFormat (faker 'date.soon') 'yyyy-MM-dd\\'T\\'HH:mm:ssXX'}}\",\n  \"location\": {{body 'location'}},\n  \"altitude\": {{body 'altitude'}},\n  \"date_start\": \"{{body 'date_start'}}\",\n  \"date_end\": \"{{body 'date_end'}}\"\n}",
+          "latency": 400,
+          "statusCode": 200,
+          "label": "The plan is created successfully",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "09ae3500-1a51-4a4e-a648-07130f7a3465",
+          "body": "{\n  \"error_code\": \"invalid-fields\",\n  \"error_message\": \"The form contains invalid fields\"\n}",
+          "latency": 100,
+          "statusCode": 400,
+          "label": "Missing fields response",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "uas_id",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "location",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "date_start",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "date_end",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "altitude",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f0da914d-7605-478d-95a3-af163a15f847",
+          "body": "{\n  \"error_code\": \"invalid-uas-id\",\n  \"error_message\": \"The UAS ID is invalid\"\n}",
+          "latency": 100,
+          "statusCode": 400,
+          "label": "Invalid UASID",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "uas_id",
+              "value": "[0-9A-F]+",
+              "invert": true,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "uas_id",
+              "value": "^.{4}(1.{1}|2.{2}|3.{3}|4.{4}|5.{5}|6.{6}|7.{7}|8.{8}|9.{9}|A.{10}|B.{11}|C.{12}|D.{13}|E.{14}|F.{15})$",
+              "invert": true,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a492b9c9-a275-44a3-a0ff-a3e653d658fa",
+          "body": "{\n  \"error_code\": \"planning-denied\",\n  \"error_message\": \"Flight plan cannot be created, the airspace do not accept new plans at this moment. Please try again in a while.\"\n}",
+          "latency": 150,
+          "statusCode": 409,
+          "label": "Not possible to plan",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "request_number",
+              "modifier": "",
+              "value": "5",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "request_number",
+              "modifier": "",
+              "value": "10",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "2aed0134-5d0b-43c5-b8e2-cc4b3883ce90",
+          "body": "{\n  \"error_code\": \"server_down\",\n  \"error_message\": \"Service is unavailable\",\n  \"_\": \"¯\\_(ツ)_/¯\",\n}",
+          "latency": 1200,
+          "statusCode": 503,
+          "label": "Server goes down",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f5924c7f-e443-4820-872f-9efd4a959680",
+          "body": "{\n  \"error_code\": \"flight-too-close\",\n  \"error_message\": \"Your flight plan is too close to another flight\"\n}",
+          "latency": 100,
+          "statusCode": 409,
+          "label": "Too close to another flight",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "location.latitude",
+              "value": "49\\.192[0-9]+",
+              "invert": false,
+              "operator": "regex"
+            },
+            {
+              "target": "body",
+              "modifier": "location.longitude",
+              "value": "16\\.555[0-9]+",
+              "invert": false,
+              "operator": "regex"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "6d789ec1-70ea-4319-a404-cc15a094f814"
+    },
+    {
+      "type": "route",
+      "uuid": "d92101bd-1e4c-4b25-ae91-ac54a4753f94"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
