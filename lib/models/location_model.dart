@@ -36,4 +36,18 @@ class LocationModel extends Equatable {
         altitude,
         radius,
       ];
+
+  LocationModel copyWith({
+    double? latitude,
+    bool? clearLatitude,
+    double? longitude,
+    bool? clearLongitude,
+    double? radius,
+    bool? clearRadius,
+  }) =>
+      LocationModel(
+        latitude: clearLatitude == true ? null : latitude ?? this.latitude,
+        longitude: clearLongitude == true ? null : longitude ?? this.longitude,
+        radius: clearRadius == true ? null : radius ?? this.radius,
+      );
 }

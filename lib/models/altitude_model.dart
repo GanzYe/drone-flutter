@@ -30,4 +30,15 @@ class AltitudeModel extends Equatable {
         min,
         max,
       ];
+
+  AltitudeModel copyWith({
+    double? min,
+    bool? clearMin,
+    double? max,
+    bool? clearMax,
+  }) =>
+      AltitudeModel(
+        min: clearMin == true ? null : min ?? this.min,
+        max: clearMax == true ? null : max ?? this.max,
+      );
 }
