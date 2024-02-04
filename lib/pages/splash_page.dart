@@ -1,5 +1,6 @@
 import 'package:drone/bloc/drones_details_cubit/drones_details_cubit.dart';
 import 'package:drone/config/app_theme.dart';
+import 'package:drone/pages/main_page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -11,17 +12,19 @@ class SplashPage extends StatelessWidget {
         builder: (_) => const SplashPage(),
       );
 
-  // void _navigateToIntro(BuildContext context) {
-  //   Navigator.of(context).pushReplacement(
-  //     IntroPage.route(),
-  //   );
-  // }
+  void _navigateToIntro(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MainPage.route(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) =>
       BlocListener<DronesDetailsCubit, DronesDetailsState>(
         listener: (context, state) {
-          if (state.status == FormzSubmissionStatus.success) {}
+          if (state.status == FormzSubmissionStatus.success) {
+            _navigateToIntro(context);
+          }
         },
         child: Scaffold(
           backgroundColor: AppTheme.splashBG,

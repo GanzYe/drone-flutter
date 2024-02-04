@@ -3,6 +3,10 @@
         android:label="drone"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDdIVFojmYQohS81eLLnou77Qw5gJpIh_I"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
