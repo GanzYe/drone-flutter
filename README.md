@@ -1,16 +1,12 @@
 # drone
 
-A new Flutter project.
+#Mock server,
+ will respond to your requests. In the folder ```/drone-api``` you'll find a JSON specification for a mock server,
+which you can run using Mockoon (https://mockoon.com/).
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#Start
+  - run the server in the host you need, then point that host url to ```/lib/config/env.dart```.
+  - in flutter project run the comanand on cmd:
+    - ```dart pub get```
+    - ```dart run build_runner build```
+  - and run the project on Android/iOS :)
