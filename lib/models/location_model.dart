@@ -5,21 +5,28 @@ part 'location_model.g.dart';
 
 @JsonSerializable(
   explicitToJson: true,
-  createToJson: false,
+  createToJson: true,
   fieldRename: FieldRename.snake,
 )
 class LocationModel extends Equatable {
   const LocationModel({
-    required this.latitude,
-    required this.longitude,
-    required this.altitude,
+    this.latitude,
+    this.longitude,
+    this.altitude,
+    this.radius,
   });
 
   factory LocationModel.fromJson(Map<String, dynamic> json) =>
       _$LocationModelFromJson(json);
 
+  Map<String, dynamic> toJson() {
+    final result = _$LocationModelToJson(this);
+    return result;
+  }
+
   final double? latitude;
   final double? longitude;
+  final double? radius;
   final double? altitude;
 
   @override
@@ -27,5 +34,6 @@ class LocationModel extends Equatable {
         latitude,
         longitude,
         altitude,
+        radius,
       ];
 }

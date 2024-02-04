@@ -12,7 +12,7 @@ class AppTheme {
   static const Color grey10 = Color(0xFFF3F3F3);
 
   static const Color background = Color(0xFFF7F7F7);
-  static const Color splashBG = Color(0xFFFFFFFF);
+  static const Color splashBG = Color(0xFFF7F7F7);
   static const Color mainColor = Color(0xFF3A436D);
   static const Color secondColor = Color(0xFF0F35D9);
 
@@ -131,7 +131,7 @@ class AppTheme {
   static BorderRadius dialogBorderRadius = BorderRadius.circular(16.0);
 
   static final lightTheme = ThemeData(
-    indicatorColor: cyan20,
+    indicatorColor: mainColor,
     colorSchemeSeed: white,
     useMaterial3: true,
     scaffoldBackgroundColor: white,
@@ -140,7 +140,7 @@ class AppTheme {
       bodyMedium: TextStyle(),
       bodySmall: TextStyle(),
     ).apply(
-      bodyColor: cyan20,
+      bodyColor: mainColor,
     ),
     fontFamily: 'Poppins',
     appBarTheme: const AppBarTheme(
@@ -153,28 +153,8 @@ class AppTheme {
     ),
     inputDecorationTheme: const InputDecorationTheme(
       // floatingLabelBehavior: FloatingLabelBehavior.never,
-      contentPadding: EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 16.0),
+      contentPadding: EdgeInsets.fromLTRB(16.0, 0.0, 0.0, 16.0),
 
-      border: OutlineInputBorder(
-        borderSide: BorderSide(color: grey30),
-        borderRadius: inputRadius,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: grey30),
-        borderRadius: inputRadius,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: grey30),
-        borderRadius: inputRadius,
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: grey30),
-        borderRadius: inputRadius,
-      ),
-      errorBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: red, width: 2.0),
-        borderRadius: inputRadius,
-      ),
       errorStyle: TextStyle(
         fontSize: 12.0,
         fontWeight: FontWeight.w400,
@@ -183,12 +163,10 @@ class AppTheme {
       errorMaxLines: 2,
 
       labelStyle: TextStyle(
-        backgroundColor: cyan80,
-        color: cyan20,
+        color: mainColor,
         fontSize: 16.0,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
-        height: 24.0 / 16.0,
       ),
 
       hintStyle: TextStyle(
@@ -196,7 +174,6 @@ class AppTheme {
         fontSize: 16.0,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
-        height: 24.0 / 16.0,
       ),
     ),
     cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
@@ -207,8 +184,8 @@ class AppTheme {
       enableFeedback: true,
       showUnselectedLabels: true,
       backgroundColor: white,
-      unselectedItemColor: cyan20,
-      selectedItemColor: cyan20,
+      unselectedItemColor: mainColor,
+      selectedItemColor: mainColor,
       elevation: bottomNavigationBarElevation,
       selectedLabelStyle: labelM,
       unselectedLabelStyle: bodyS,
@@ -250,7 +227,7 @@ class AppTheme {
     fontWeight: FontWeight.w600,
     height: 28.sp / 22.sp,
     fontSize: 22.sp,
-    color: cyan20,
+    color: mainColor,
   );
 
   static TextStyle titleLarge = TextStyle(
@@ -274,7 +251,7 @@ class AppTheme {
 
   //Body
   static TextStyle bodyM = TextStyle(
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w700,
     fontSize: 14.sp,
     letterSpacing: 0.25.sp,
   );
@@ -288,7 +265,7 @@ class AppTheme {
   );
 
   static TextStyle bodyS = TextStyle(
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w700,
     height: 16.sp / 12.sp,
     fontSize: 12.sp,
   );

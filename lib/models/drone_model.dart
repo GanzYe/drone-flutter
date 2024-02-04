@@ -11,11 +11,11 @@ part 'drone_model.g.dart';
 )
 class DroneModel extends Equatable {
   const DroneModel({
-    required this.uasId,
-    required this.lastSeen,
-    required this.location,
-    required this.speed,
-    required this.trackAngle,
+    this.uasId,
+    this.lastSeen,
+    this.location,
+    this.speed,
+    this.trackAngle,
   });
 
   factory DroneModel.fromJson(Map<String, dynamic> json) =>
