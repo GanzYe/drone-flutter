@@ -18,14 +18,10 @@ class DronesDetailsCubit extends Cubit<DronesDetailsState> {
     final failureOrResponse = await droneRepository.getDrones();
     failureOrResponse.fold(
       (failure) {
-        late String errorMessage;
-        if (failure == 404) {
-          errorMessage = 'Not Found';
-        }
         emit(
           state.copyWith(
             status: FormzSubmissionStatus.failure,
-            errorMessage: errorMessage,
+            errorMessage: failure.errorMessage,
           ),
         );
       },

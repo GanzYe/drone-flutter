@@ -14,6 +14,9 @@ class UasID extends FormzInput<String, UasIDValidationError> {
 
   @override
   UasIDValidationError? validator(String value) {
+    if (value.isEmpty) {
+      return null;
+    }
     if (_uasIDRegExp.hasMatch(value)) {
       final String serialNumberLength = value[4];
       final int length = int.parse(serialNumberLength, radix: 16);
