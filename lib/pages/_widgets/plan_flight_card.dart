@@ -48,163 +48,187 @@ class PlanFlightCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        'Plan new flight',
+                        'Plan a new flight',
                         style: AppTheme.labelM
                             .copyWith(color: AppTheme.background),
                       ),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.57 -
-                          31 +
-                          (40 * state.notValidLength),
-                      decoration: const BoxDecoration(
-                        color: AppTheme.background,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(25),
+                    Stack(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.57 -
+                              31 +
+                              (40 * state.notValidLength),
+                          decoration: const BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(25),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppTheme.spacingMHeight,
+                              const UasIDInput(),
+                              AppTheme.spacingSHeight,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Text(
+                                  'Location:',
+                                  style: AppTheme.bodyM,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: NumberFormField(
+                                      onChanged: (value) {
+                                        context
+                                            .read<PlanFlightCubit>()
+                                            .latitudeChanged(latitude: value);
+                                      },
+                                      initialValue: state.location.latitude,
+                                      labelText: 'Latitude',
+                                      stringAsFixed: 10,
+                                      decimal: true,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: NumberFormField(
+                                      onChanged: (value) {
+                                        context
+                                            .read<PlanFlightCubit>()
+                                            .longitudeChanged(longitude: value);
+                                      },
+                                      initialValue: state.location.longitude,
+                                      labelText: 'Longitude',
+                                      stringAsFixed: 10,
+                                      decimal: true,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              NumberFormField(
+                                onChanged: (value) {
+                                  context
+                                      .read<PlanFlightCubit>()
+                                      .radiusChanged(radius: value);
+                                },
+                                labelText: 'Radius',
+                                stringAsFixed: 2,
+                                decimal: true,
+                              ),
+                              AppTheme.spacingSHeight,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Text(
+                                  'Altitude:',
+                                  style: AppTheme.bodyM,
+                                ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    child: NumberFormField(
+                                      onChanged: (value) {
+                                        context
+                                            .read<PlanFlightCubit>()
+                                            .minChanged(min: value);
+                                      },
+                                      labelText: 'Min',
+                                      stringAsFixed: 2,
+                                      decimal: true,
+                                      validator: (_) {
+                                        if (state.altitude.min != null &&
+                                            state.altitude.max != null) {
+                                          if (state.altitude.min! >
+                                              state.altitude.max!) {
+                                            return 'Min value cann\'t be greater than max value';
+                                          }
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: NumberFormField(
+                                      onChanged: (value) {
+                                        context
+                                            .read<PlanFlightCubit>()
+                                            .maxChanged(max: value);
+                                      },
+                                      labelText: 'Max',
+                                      stringAsFixed: 2,
+                                      decimal: true,
+                                      validator: (_) {
+                                        if (state.altitude.min != null &&
+                                            state.altitude.max != null) {
+                                          if (state.altitude.min! >
+                                              state.altitude.max!) {
+                                            return 'Max value cann\'t be less than  min value';
+                                          }
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              DateRangePickerField(
+                                labelText: 'Flight dates',
+                                dateRangePickerView: DateRangePickerView.month,
+                                onChanged: (DateTimeRange value) {
+                                  context
+                                      .read<PlanFlightCubit>()
+                                      .dateRangeChanged(
+                                        start: value.start,
+                                        end: value.end,
+                                      );
+                                },
+                              ),
+                              AppTheme.spacingSHeight,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  PrimaryButton(
+                                    isLoading: state.status ==
+                                        FormzSubmissionStatus.inProgress,
+                                    active: state.isValid,
+                                    title: 'Send flight',
+                                    onPressed: () {
+                                      context
+                                          .read<PlanFlightCubit>()
+                                          .sendFlight();
+                                    },
+                                    backgroundColor: ButtonColors(
+                                      enabled: AppTheme.mainColor,
+                                      disabled:
+                                          AppTheme.black.withOpacity(0.25),
+                                    ),
+                                    textColor: const TextColors(
+                                      enabled: AppTheme.white,
+                                      disabled: AppTheme.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AppTheme.spacingMHeight,
-                          const UasIDInput(),
-                          AppTheme.spacingSHeight,
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Text(
-                              'Location:',
-                              style: AppTheme.bodyM,
+                        if (state.status == FormzSubmissionStatus.inProgress)
+                          Positioned.fill(
+                            child: Container(
+                              color: Colors.black.withOpacity(0.15),
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppTheme.refreshIndicatorColor,
+                                ),
+                              ),
                             ),
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: NumberFormField(
-                                  onChanged: (value) {
-                                    context
-                                        .read<PlanFlightCubit>()
-                                        .latitudeChanged(latitude: value);
-                                  },
-                                  labelText: 'Latitude',
-                                  stringAsFixed: 10,
-                                  decimal: true,
-                                ),
-                              ),
-                              Expanded(
-                                child: NumberFormField(
-                                  onChanged: (value) {
-                                    context
-                                        .read<PlanFlightCubit>()
-                                        .longitudeChanged(longitude: value);
-                                  },
-                                  labelText: 'Longitude',
-                                  stringAsFixed: 10,
-                                  decimal: true,
-                                ),
-                              ),
-                            ],
-                          ),
-                          NumberFormField(
-                            onChanged: (value) {
-                              context
-                                  .read<PlanFlightCubit>()
-                                  .radiusChanged(radius: value);
-                            },
-                            labelText: 'Radius',
-                            stringAsFixed: 2,
-                            decimal: true,
-                          ),
-                          AppTheme.spacingSHeight,
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Text(
-                              'Altitude:',
-                              style: AppTheme.bodyM,
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Expanded(
-                                child: NumberFormField(
-                                  onChanged: (value) {
-                                    context
-                                        .read<PlanFlightCubit>()
-                                        .minChanged(min: value);
-                                  },
-                                  labelText: 'Min',
-                                  stringAsFixed: 2,
-                                  decimal: true,
-                                  validator: (_) {
-                                    if (state.altitude.min != null &&
-                                        state.altitude.max != null) {
-                                      if (state.altitude.min! >
-                                          state.altitude.max!) {
-                                        return 'Min value cann\'t be greater than max value';
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                              Expanded(
-                                child: NumberFormField(
-                                  onChanged: (value) {
-                                    context
-                                        .read<PlanFlightCubit>()
-                                        .maxChanged(max: value);
-                                  },
-                                  labelText: 'Max',
-                                  stringAsFixed: 2,
-                                  decimal: true,
-                                  validator: (_) {
-                                    if (state.altitude.min != null &&
-                                        state.altitude.max != null) {
-                                      if (state.altitude.min! >
-                                          state.altitude.max!) {
-                                        return 'Max value cann\'t be less than  min value';
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          DateRangePickerField(
-                            labelText: 'Flight dates',
-                            dateRangePickerView: DateRangePickerView.month,
-                            onChanged: (DateTimeRange value) {
-                              context.read<PlanFlightCubit>().dateRangeChanged(
-                                    start: value.start,
-                                    end: value.end,
-                                  );
-                            },
-                          ),
-                          AppTheme.spacingSHeight,
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              PrimaryButton(
-                                isLoading: state.status ==
-                                    FormzSubmissionStatus.inProgress,
-                                active: state.isValid,
-                                title: 'Send flight',
-                                onPressed: () {},
-                                backgroundColor: ButtonColors(
-                                  enabled: AppTheme.mainColor,
-                                  disabled: AppTheme.black.withOpacity(0.25),
-                                ),
-                                textColor: const TextColors(
-                                  enabled: AppTheme.white,
-                                  disabled: AppTheme.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
                   ],
                 ),

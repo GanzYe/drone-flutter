@@ -56,7 +56,7 @@ class _DateRangePickerFieldState extends State<DateRangePickerField> {
                   view: widget.dateRangePickerView,
                   selectionMode: DateRangePickerSelectionMode.range,
                   allowViewNavigation: widget.allowViewNavigation ?? true,
-                  maxDate: DateTime.now(),
+                  minDate: DateTime.now(),
                   onSubmit: (date) {
                     if (date is PickerDateRange) {
                       DateTime? endTime;

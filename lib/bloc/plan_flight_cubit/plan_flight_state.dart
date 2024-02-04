@@ -37,7 +37,9 @@ class PlanFlightState extends Equatable {
     UasID? uasID,
     AltitudeModel? altitude,
     DateTime? dateStart,
+    bool? clearStart,
     DateTime? dateEnd,
+    bool? clearEnd,
   }) =>
       PlanFlightState(
         status: status ?? this.status,
@@ -45,8 +47,8 @@ class PlanFlightState extends Equatable {
         location: location ?? this.location,
         uasID: uasID ?? this.uasID,
         altitude: altitude ?? this.altitude,
-        dateStart: dateStart ?? this.dateStart,
-        dateEnd: dateEnd ?? this.dateEnd,
+        dateStart: clearStart == true ? null : dateStart ?? this.dateStart,
+        dateEnd: clearEnd == true ? null : dateEnd ?? this.dateEnd,
       );
 
   int get notValidLength {

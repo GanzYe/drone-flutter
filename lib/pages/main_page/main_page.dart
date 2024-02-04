@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:drone/bloc/main_page_cubit/main_page_cubit.dart';
 import 'package:drone/bloc/plan_flight_cubit/plan_flight_cubit.dart';
 import 'package:drone/config/app_theme.dart';
+import 'package:drone/pages/_widgets/close_dialog.dart';
 import 'package:drone/pages/_widgets/drone_card.dart';
 import 'package:drone/pages/_widgets/plan_flight_card.dart';
 import 'package:drone/pages/_widgets/un_focus_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MainPage extends StatefulWidget {
@@ -60,6 +62,34 @@ class _MainPageState extends State<MainPage> {
               onPopInvoked: (didPop) async {},
               child: Stack(
                 children: [
+                  BlocListener<PlanFlightCubit, PlanFlightState>(
+                    listener: (context, state) {
+                      if (state.status != FormzSubmissionStatus.inProgress) {
+                        if (state.status == FormzSubmissionStatus.success) {
+                          closeDialogBuilder(
+                            context,
+                            title: 'The plan was created successfully',
+                          );
+                          _draggableScrollableController.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.ease,
+                          );
+                        } else if (state.status ==
+                            FormzSubmissionStatus.failure) {
+                          closeDialogBuilder(
+                            context,
+                            title: state.errorMessage,
+                          );
+                        }
+                        context.read<PlanFlightCubit>().statusChanged(
+                              status: FormzSubmissionStatus.initial,
+                              errorMessage: '',
+                            );
+                      }
+                    },
+                    child: Container(),
+                  ),
                   GoogleMap(
                     compassEnabled: true,
                     zoomControlsEnabled: false,

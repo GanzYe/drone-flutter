@@ -59,9 +59,7 @@ class PrimaryButton extends StatelessWidget {
             active ? backgroundColor.enabled : backgroundColor.disabled,
           ),
           foregroundColor: MaterialStateProperty.all(AppTheme.background),
-          padding: MaterialStateProperty.all(
-            const EdgeInsets.symmetric(horizontal: 100.0, vertical: 10.0),
-          ),
+          minimumSize: MaterialStateProperty.all(const Size(200.0, 40.0)),
         ),
         onPressed: active && !isLoading ? onPressed : null,
         child: Row(
