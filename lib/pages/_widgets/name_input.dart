@@ -9,6 +9,7 @@ class NameTextFormField extends StatelessWidget {
     required this.onChanged,
     this.validator,
     this.readOnly,
+    this.initialValue,
   }) : super(key: key);
   final String? errorText;
   final bool? readOnly;
@@ -16,6 +17,7 @@ class NameTextFormField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final void Function(String) onChanged;
   final String? Function(String?)? validator;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) => TextFormField(
@@ -30,5 +32,6 @@ class NameTextFormField extends StatelessWidget {
         ),
         textInputAction: textInputAction,
         onChanged: onChanged,
+        initialValue: initialValue,
       );
 }

@@ -41,4 +41,11 @@ class AltitudeModel extends Equatable {
         min: clearMin == true ? null : min ?? this.min,
         max: clearMax == true ? null : max ?? this.max,
       );
+
+  bool get isValid {
+    if (min != null && max != null && min! > max!) {
+      return false;
+    }
+    return true;
+  }
 }

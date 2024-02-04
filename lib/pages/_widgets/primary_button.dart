@@ -63,7 +63,7 @@ class PrimaryButton extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 100.0, vertical: 10.0),
           ),
         ),
-        onPressed: active && !isLoading ? onPressed : () {},
+        onPressed: active && !isLoading ? onPressed : null,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: mainAxisSize,

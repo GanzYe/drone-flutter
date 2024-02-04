@@ -1,31 +1,36 @@
 import 'package:formz/formz.dart';
 
-enum EmailValidationError { empty, invalid }
+enum UasIDValidationError { invalid }
 
-class UasID extends FormzInput<String, EmailValidationError> {
+class UasID extends FormzInput<String, UasIDValidationError> {
   const UasID.pure() : super.pure('');
 
   const UasID.dirty([String value = '']) : super.dirty(value);
 
-  static final RegExp _emailRegExp = RegExp(
-    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+  static final RegExp _uasIDRegExp = RegExp(
+    r'^([0-9A-Fa-f]{4})([0-9A-Fa-f]{1})[0-9A-F]{1,15}$',
+    caseSensitive: false,
   );
 
   @override
-  EmailValidationError? validator(String value) {
-    if (value.isEmpty) {
-      return EmailValidationError.empty;
+  UasIDValidationError? validator(String value) {
+    if (_uasIDRegExp.hasMatch(value)) {
+      final String serialNumberLength = value[4];
+      final int length = int.parse(serialNumberLength, radix: 16);
+      final String serialNumber = value.substring(5);
+      if (serialNumber.length == length) {
+        return null;
+      }
+      return UasIDValidationError.invalid;
+    } else {
+      return UasIDValidationError.invalid;
     }
-
-    return _emailRegExp.hasMatch(value) ? null : EmailValidationError.invalid;
   }
 
-  static String getError(EmailValidationError value) {
+  static String getError(UasIDValidationError value) {
     switch (value) {
-      case EmailValidationError.empty:
-        return 'cant be empty';
-      case EmailValidationError.invalid:
-        return 'Non valid Uas ID';
+      case UasIDValidationError.invalid:
+        return 'Uas ID is not valid';
     }
   }
 }

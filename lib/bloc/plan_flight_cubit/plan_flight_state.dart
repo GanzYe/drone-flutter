@@ -48,4 +48,35 @@ class PlanFlightState extends Equatable {
         dateStart: dateStart ?? this.dateStart,
         dateEnd: dateEnd ?? this.dateEnd,
       );
+
+  int get notValidLength {
+    int length = 0;
+    if (!uasID.isPure && uasID.isNotValid) {
+      length++;
+    }
+    if (dateStart != null && dateEnd != null) {
+      if (dateStart!.isAfter(dateEnd!)) {
+        length++;
+      }
+    }
+    if (!altitude.isValid) {
+      length++;
+    }
+    return length;
+  }
+
+  bool get isValid {
+    if (uasID.isNotValid ||
+        dateStart == null ||
+        dateEnd == null ||
+        location.longitude == null ||
+        location.latitude == null ||
+        location.radius == null ||
+        !altitude.isValid ||
+        altitude.min == null ||
+        altitude.max == null) {
+      return false;
+    }
+    return true;
+  }
 }

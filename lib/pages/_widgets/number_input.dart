@@ -48,7 +48,8 @@ class NumberFormFieldState extends State<NumberFormField> {
         readOnly: false,
         inputFormatters: widget.decimal
             ? <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                FilteringTextInputFormatter.allow(RegExp(
+                    r'^\d+\.?\d{0,' + widget.stringAsFixed.toString() + '}')),
               ]
             : <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly,

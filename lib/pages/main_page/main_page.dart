@@ -72,7 +72,7 @@ class _MainPageState extends State<MainPage> {
                     onTap: (_) {
                       context.read<MainPageCubit>().droneSelected();
                       _draggableScrollableController.animateTo(
-                        0.05,
+                        0,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.ease,
                       );
