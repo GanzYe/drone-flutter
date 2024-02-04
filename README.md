@@ -1,7 +1,7 @@
 # drone
 
-# Mock server,
- will respond to your requests. In the folder ```/drone-api``` you'll find a JSON specification for a mock server,
+# Mock server
+Mock server will respond to your requests. In the folder ```/drone-api``` you'll find a JSON specification for a mock server,
 which you can run using Mockoon (https://mockoon.com/).
 
 # Start
